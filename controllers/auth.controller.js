@@ -13,7 +13,7 @@ exports.register = async (req, res) => {
         email: req.body.email,
         pass: req.body.pass
     }
-
+ 
     let passwordHash = await bcryptjs.hash(user.pass, 8);
 
     const userCreado = {
