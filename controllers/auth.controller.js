@@ -46,6 +46,7 @@ exports.login = async (req, res) => {
                 res.send("Email o contraseña incorrecta")
             } else {
                 const id = results[0].id
+                const username= results[0].username
                 const token = jwt.sign({ id: id }, process.env.JWT_SECRET, {
                     expiresIn: process.env.JWT_EXPIRATION,
                 })
@@ -59,6 +60,7 @@ exports.login = async (req, res) => {
                 res.cookie('jwt', token, cookieOptions)
                 res.send({
                     jwt:token,
+                    name:username,
                     logged:true
                 })
 
