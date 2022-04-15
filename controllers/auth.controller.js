@@ -70,15 +70,23 @@ exports.login = async (req, res) => {
 }
 
 exports.isAuthenticated = async (req, res, next) => {
-    if (req.cookieOptions.jwt) {
+    const token = req.headers['authorization']
+
+   
+    if (token) {
         try {
-            const decodificado = await promisify(jwt.verify)(req.cookieOptions.jwt, process.env.JWT_SECRET)
+            const decodificado = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
             connection.query('SELECT * from usuarios WHERE id = ?', [decodificado.id], (err, results) => {
                 if (!results) {
                     return next()
                 }
-                req.user=results[0]
-                return next()
+                const id = results[0].id
+                const username= results[0].username
+                res.send({
+                    name:username,
+                    logged:true
+                })
+                return next();
             })
 
         } catch (error) {
