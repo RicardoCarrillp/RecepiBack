@@ -3,9 +3,12 @@ const express = require('express');
 const dotenv = require('dotenv');
 const bcryptjs = require('bcryptjs')
 const session = require('express-session');
+const cors = require('cors')
 
 const app = express();
 dotenv.config({ path: './env/.env' });
+
+app.use(cors())
 
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
